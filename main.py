@@ -4,20 +4,41 @@ import os
 
 notes = {}
 
-def create_note(identificator, title, text):
-    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": datetime.datetime.now()}
+def list_notes():
+    print("Список всех заметок:")
+    for note in notes.values():
+        print(note)
 
-def delete_note(identificator):
-    del notes[identificator]
+def filter_notes():
+    print("Введите дату для фильтрации:")
 
-def get_note(identificator):
-    return notes[identificator]
+    try:
+        filter_date = input()
+        filter_date = datetime.date.fromisoformat(filter_date)
 
-def update_note(identificator, title, text):
-    note = get_note(identificator)
-    note["title"] = title
-    note["text"] = text
-    note["time"] = datetime.datetime.now()
+        print(f"Список заметок за дату {filter_date}:")
+        for note in notes.values():
+            if note["time"].date() == filter_date:
+                print(note)
+    except:
+        print("Введена неверная дата, ожидается yyyy-MM-dd")
+
+def create_note():
+    print("Введите заголовок заметки:")
+    title = input()
+
+    print("Введите текст заметки:")
+    text = input()
+
+    identificator = len(notes) + 1
+    time = datetime.datetime.now()
+    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
+
+def delete_note():
+    pass
+
+def update_note():
+    pass
 
 def read_notes(file_name):
     if os.path.exists(file_name):
@@ -44,20 +65,18 @@ if __name__ == "__main__":
         if command == "exit":
             break
         elif command == "create":
-            pass
+            create_note()
         elif command == "update":
             pass
         elif command == "delete":
             pass
         elif command == "list":
-            pass
+            list_notes()
         elif command == "filter":
-            pass
+            filter_notes()
         else:
             print("Неизвестная команда")
 
-    # create_note(1,2,7)
-    # print(get_note(1))
     print("Хотите сохранить изменения?")
     while True:
         result = input().lower()
