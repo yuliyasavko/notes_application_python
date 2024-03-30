@@ -4,20 +4,81 @@ import os
 
 notes = {}
 
-def create_note(identificator, title, text):
-    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": datetime.datetime.now()}
+def list_notes():
+    print("Список всех заметок:")
+    for note in notes.values():
+        print(note)
 
-def delete_note(identificator):
+def filter_notes():
+    print("Введите дату для фильтрации:")
+
+    try:
+        filter_date = input()
+        filter_date = datetime.date.fromisoformat(filter_date)
+
+        print(f"Список заметок за дату {filter_date}:")
+        for note in notes.values():
+            if note["time"].date() == filter_date:
+                print(note)
+    except:
+        print("Введена неверная дата, ожидается yyyy-MM-dd")
+
+def create_note():
+    print("Введите заголовок заметки:")
+    title = input()
+
+    print("Введите текст заметки:")
+    text = input()
+
+    if len(notes) == 0:
+        identificator = 0
+    else:
+        identificator = max(note["id"] for note in notes.values()) + 1
+
+    time = datetime.datetime.now()
+    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
+
+def delete_note():
+    print("Введите идентификатор заметки:")
+
+    try:
+        identificator = int(input())
+    except:
+        print("Неверный идентификатор")
+        return
+
+    if identificator not in notes:
+        print("Несуществующий идентификатор")
+        return
+
     del notes[identificator]
 
-def get_note(identificator):
-    return notes[identificator]
 
-def update_note(identificator, title, text):
-    note = get_note(identificator)
-    note["title"] = title
-    note["text"] = text
-    note["time"] = datetime.datetime.now()
+def update_note():
+    print("Введите идентификатор заметки:")
+
+    try:
+        identificator = int(input())
+    except:
+        print("Неверный идентификатор")
+        return
+
+    if identificator not in notes:
+        print("Несуществующий идентификатор")
+        return
+
+    note = notes[identificator]
+
+    print("Введите заголовок заметки:")
+    title = input()
+
+    print("Введите текст заметки:")
+    text = input()
+
+    time = datetime.datetime.now()
+    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
+
+
 
 def read_notes(file_name):
     if os.path.exists(file_name):
@@ -44,20 +105,18 @@ if __name__ == "__main__":
         if command == "exit":
             break
         elif command == "create":
-            pass
+            create_note()
         elif command == "update":
-            pass
+            update_note()
         elif command == "delete":
-            pass
+            delete_note()
         elif command == "list":
-            pass
+            list_notes()
         elif command == "filter":
-            pass
+            filter_notes()
         else:
             print("Неизвестная команда")
 
-    # create_note(1,2,7)
-    # print(get_note(1))
     print("Хотите сохранить изменения?")
     while True:
         result = input().lower()
