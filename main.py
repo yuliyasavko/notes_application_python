@@ -36,6 +36,37 @@ def save_notes(file_name):
 
 if __name__ == "__main__":
     read_notes("notes.json")
+
+    while True:
+        print("Введите команду")
+        command = input().lower()
+
+        if command == "exit":
+            break
+        elif command == "create":
+            pass
+        elif command == "update":
+            pass
+        elif command == "delete":
+            pass
+        elif command == "list":
+            pass
+        elif command == "filter":
+            pass
+        else:
+            print("Неизвестная команда")
+
     # create_note(1,2,7)
     # print(get_note(1))
-    save_notes("notes.json")
+    print("Хотите сохранить изменения?")
+    while True:
+        result = input().lower()
+        if result == "yes":
+            save_notes("notes.json")
+            print ("Изменения сохранены")
+            break
+        elif result == "no":
+            print("Изменения не сохранены")
+            break
+        else:
+            print('Допускается ответ "Yes" или "No"')
