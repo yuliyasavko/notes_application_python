@@ -39,10 +39,46 @@ def create_note():
     notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
 
 def delete_note():
-    pass
+    print("Введите идентификатор заметки:")
+
+    try:
+        identificator = int(input())
+    except:
+        print("Неверный идентификатор")
+        return
+
+    if identificator not in notes:
+        print("Несуществующий идентификатор")
+        return
+
+    del notes[identificator]
+
 
 def update_note():
-    pass
+    print("Введите идентификатор заметки:")
+
+    try:
+        identificator = int(input())
+    except:
+        print("Неверный идентификатор")
+        return
+
+    if identificator not in notes:
+        print("Несуществующий идентификатор")
+        return
+
+    note = notes[identificator]
+
+    print("Введите заголовок заметки:")
+    title = input()
+
+    print("Введите текст заметки:")
+    text = input()
+
+    time = datetime.datetime.now()
+    notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
+
+
 
 def read_notes(file_name):
     if os.path.exists(file_name):
@@ -71,9 +107,9 @@ if __name__ == "__main__":
         elif command == "create":
             create_note()
         elif command == "update":
-            pass
+            update_note()
         elif command == "delete":
-            pass
+            delete_note()
         elif command == "list":
             list_notes()
         elif command == "filter":
