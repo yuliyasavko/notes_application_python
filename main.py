@@ -30,7 +30,11 @@ def create_note():
     print("Введите текст заметки:")
     text = input()
 
-    identificator = len(notes) + 1
+    if len(notes) == 0:
+        identificator = 0
+    else:
+        identificator = max(note["id"] for note in notes.values()) + 1
+
     time = datetime.datetime.now()
     notes[identificator] =  {"id": identificator, "title": title, "text": text, "time": time}
 
